@@ -43,8 +43,9 @@ let isInViewport = function(el) {
 let sections = document.getElementsByTagName('section');
 const navList = document.getElementById("navbar__list");
 for (section of sections) {
+    let menuId = section.getAttribute("id");  
     let menuName = section.getAttribute("data-nav");
-    navList.innerHTML = '<li class = \'menu__link\'>' + menuName +'</li>';
+    navList.innerHTML = navList.innerHTML + "<li><a href=\"#" +menuId +"\" class = \'menu__link\'>" + menuName + "</a></li>";
 };
 
 // Add class 'active' to section when near top of viewport
