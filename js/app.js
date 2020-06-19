@@ -24,9 +24,15 @@
  * Start Helper Functions
  * 
 */
-
-
-
+let isInViewport = function(el) {
+    const bounding = el.getBoundingClientRect();
+    return (
+        bounding.top >= 0 &&
+        bounding.left >= 0 &&
+        bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        bounding.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+};
 /**
  * End Helper Functions
  * Begin Main Functions
@@ -34,7 +40,12 @@
 */
 
 // build the nav
-
+let sections = document.getElementsByTagName('section');
+const navList = document.getElementById("navbar__list");
+for (section of sections) {
+    let menuName = section.getAttribute("data-nav");
+    navList.innerHTML = '<li class = \'menu__link\'>' + menuName +'</li>';
+};
 
 // Add class 'active' to section when near top of viewport
 
