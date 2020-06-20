@@ -18,6 +18,8 @@
  * 
 */
 
+let sections = document.getElementsByTagName("section");
+const navList = document.getElementById("navbar__list");
 
 /**
  * End Global Variables
@@ -27,10 +29,8 @@
 let isInViewport = function(el) {
     const bounding = el.getBoundingClientRect();
     return (
-        bounding.top >= 0 &&
-        bounding.left >= 0 &&
-        bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        bounding.right <= (window.innerWidth || document.documentElement.clientWidth)
+        bounding.top > 0 &&
+        bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)
     );
 };
 /**
@@ -40,19 +40,33 @@ let isInViewport = function(el) {
 */
 
 // build the nav
-let sections = document.getElementsByTagName('section');
-const navList = document.getElementById("navbar__list");
-for (section of sections) {
-    let menuId = section.getAttribute("id");  
-    let menuName = section.getAttribute("data-nav");
-    navList.innerHTML = navList.innerHTML + "<li><a href=\"#" +menuId +"\" class = \'menu__link\'>" + menuName + "</a></li>";
+for (const section of sections) {
+    const navLink = section.getAttribute("id");
+    navList.innerHTML = navList.innerHTML + "<li class = \"menu__link\" id = \"" + navLink + "\">" + navLink + "</li>";
 };
 
 // Add class 'active' to section when near top of viewport
-
+function activateNavLinks(){
+    for (const section of sections) {
+        if (isInViewport(section)){
+            section.classList.add("your-active-class");
+        }
+        else {
+            section.classList.remove("your-active-class");
+        }
+    }
+}
 
 // Scroll to anchor ID using scrollTO event
+function scrollLink(el){
+    for (const section of sections) {
+        if (section.getAttribute("id") === el){
+            section.scrollIntoView({behavior: "smooth", block: "end"});
+        }
 
+    }
+    
+};
 
 /**
  * End Main Functions
@@ -63,7 +77,15 @@ for (section of sections) {
 // Build menu 
 
 // Scroll to section on link click
+let navLinks = document.querySelectorAll("li")
+
+for (const navLink of navLinks) {
+    navLink.addEventListener("click", function(){
+        scrollLink(navLink.getAttribute("id"));
+    });
+}
 
 // Set sections as active
-
-
+document.addEventListener("scroll", function() {
+    activateNavLinks();
+});
